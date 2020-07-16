@@ -1,0 +1,64 @@
+/* switch */
+/* 开关样式 */
+label.bui-switch-label .bui-switch {
+    width: 50px;
+    height: 25px;
+    position: relative;
+    border: 1px solid #dfdfdf;
+    background-color: #fdfdfd;
+    box-shadow: #dfdfdf 0 0 0 0 inset;
+    border-radius: 20px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    background-clip: content-box;
+    display: inline-block;
+    -webkit-appearance: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    outline: none;
+    position: absolute;
+    right: 0;
+    top: 6px;
+}
+/* 滑块样式 */
+label.bui-switch-label .bui-switch:before {
+    content: '';
+    width: 23px;
+    height: 24px;
+    position: absolute;
+    top: 0px;
+    left: 1px;
+    border-radius: 20px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+}
+/* 滑块向右移动距离 */
+label.bui-switch-label input:checked + .bui-switch:before {
+	left:27px;
+}
+/* 隐藏原生checkbox */
+label.bui-switch-label input {
+	position:absolute;
+	opacity:0;
+	visibility:hidden;
+}
+/* 滑块向右移动动画 */
+label.bui-switch-label.bui-switch-animbg .bui-switch:before {
+	-webkit-transition:left 0.3s;
+	transition:left 0.3s;
+}
+/* 滑块向右移动 开关颜色动画 */
+label.bui-switch-label.bui-switch-animbg input:checked + .bui-switch {
+	box-shadow:#dfdfdf 0 0 0 0 inset;
+	background-color:#64bd63;
+	-webkit-transition:border-color 0.4s,background-color ease 0.4s;
+	transition:border-color 0.4s,background-color ease 0.4s;
+}

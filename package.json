@@ -1,0 +1,24 @@
+{
+  "name": "nodejsweb3js",
+  "version": "0.0.0",
+  "description": "Nodejsweb3js",
+  "main": "server.js",
+  "author": "",
+  "dependencies": {
+    "async": "^3.2.0",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "path": "^0.12.7",
+    "ethers": "^4.0.40",
+    "promise": "^8.1.0",
+    "querystring": "^0.2.0",
+    "thenjs": "^2.1.0",
+    "url": "^0.11.0",
+    "util": "^0.12.3",
+    "web3": "^1.2.9"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "ISC"
+}

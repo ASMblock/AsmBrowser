@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="applicable-device" content="pc,mobile">
+    <title>ASM Explorer</title>
+    <link rel="shortcut icon"  href="images/asm_logo_gold.png" style="width: 12px;height: 12px;" >
+    <link rel="stylesheet" href="css/bootstrap.min.css?v=1.7">
+    <link rel="stylesheet" href="css/common.css?v=1.7">
+    <link rel="stylesheet" href="css/switch.css?v=1.7">
+</head>
+<style>
+html {
+  min-height: 100%;
+}
+</style>
+<body id="translation">
+<!-- PC端导航 -->
+<div class="nav" style="display: block;">
+    <div class="content">
+      <a href="index.html" class="logo"><img src="images/asm_logo_gold.png" alt=""><span class="tra1">Explorer</span></a>
+      <ul>
+        <li><a href="index.html" class="tra2">Home</a></li>
+        <li class="dropmenu_link">
+          <a href="javascript:;" class="tra3">Blockchain<span class="arrow"></span></a>
+          <div class="other_link_list">
+            <ul>
+              <li><a href="blockList.html" id="goBlockList" class="tra4">Block</a></li>
+              <li><a href="payList.html" id="goPayList" class="tra5">Transaction</a></li>
+              <!-- <li><a href="#">未确认交易</a></li> -->
+            </ul>
+          </div>
+        </li>
+        <li><a href="https://github.com/ASMblock" class="tra6">About us</a></li>
+      </ul>
+      <div class="language">
+        <div class="selected">
+          <span id="translateI">English</span><i></i>
+          <div class="languagelist">
+              <ul>
+                <li><a href="javascript:;">简体中文</a></li>
+                <li><a href="javascript:;">English</a></li>
+                <!-- <li><a href="javascript:;">한국어</a></li> -->
+              </ul>
+            </div>
+        </div>
+      </div>
+      <!-- <div class="daytab"><span class="night"></span><span class="daytime"></span></div> -->
+      <div class="navsearch"><input type="text" class="tra7" id="inputValue" placeholder="区块哈希/区块高度/交易哈希/地址"></div>
+    </div>
+  </div>
+  <!-- 移动端导航 -->
+  <div class="m_nav">
+    <a href="index.html" class="logo"></a>
+    <a href="index.html" class="link tra1">Explorer</a>
+    <div class="menustatus"></div>
+    <div class="menudropdown">
+      <div class="header"><input type="text" class="tra7" id="inputValue1" placeholder="区块哈希/区块高度/交易哈希/地址"><button type="button" id="search" class="tra23">搜索</button></div>
+      <div class="linklist">
+        <ul>
+          <li><a href="index.html" class="tra2">Home</a></li>
+          <li><a href="blockList.html" class="tra4">Block</a></li> 
+          <li><a href="payList.html" class="tra5">Transaction</a></li>
+          <!-- <li><a href="">未确认交易</a></li> -->
+          <li><a href="https://github.com/ASMblock" class="tra6">About us</a></li>
+          <li><a href="#" id="translate">English/简体中文
+              <label class="bui-switch-label bui-switch-animbg">
+                  <input type="checkbox" id="translateInput" name="s"><i class="bui-switch"></i>
+                  <span style="font-size:18px;margin:10px 10px;top:-7px;position:relative;"></span>
+                </label>
+          </a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+<div class="page">
+  <div class="container" id="notMsg">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="arealook">
+            <h1 class="tra36">Transaction</h1>
+            <div class="areamsglist">
+                <ul>
+                    <li><span  class="tra55">Hash</span><div id="hash"></div></li>
+                    <li><span  class="tra38">Block Height</span><div><a href="#" id="block_id"></a></div></li>
+                    <li><span  class="tra43">Data</span><div id="size"></div></li>
+                    <li><span  class="tra39">Fee</span><div id="fee"></div></li>
+                </ul>
+            </div>
+        </div> 
+        <div class="deallist">
+          <h2 class="tra40">Transaction Detail</h2>
+          <div class="dealitem">
+            <div class="item">
+              <div class="head clearfix"><i></i><span id="logValue"></span><div class="itemid">Hash <span style="cursor: pointer;" id="logId"></span></div></div>
+              <div class="body clearfix">
+                <div class="left col-lg-5">
+                  <ul>
+                    <li><a href="#" id="to_address"></a><div id="to_value"></div></li>
+                  </ul>
+                </div>
+                <div class="middle col-lg-2"><i></i></div>
+                <div class="right col-lg-5">
+                  <ul>
+                    <li><a href="#" id="get_address"></a><div id="get_value"></div></li>
+                  </ul>
+                  <ul class="free">
+                    <li><span class="tra45">Fee:</span><div id="logFee"></div></li>
+                  </ul>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> 
+      </div>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <div class="content">
+      <p>© Copyright ASM 2019. All Rights Reserved</p>
+  </div>
+</div>
+
+
+<script src="js/jquery.min.js?v=1.7"></script>
+<script src="js/bootstrap.min.js?v=1.7"></script>
+<script src="js/common.js?v=1.8"></script>
+<script>
+  function getQueryVariable(variable)
+    {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+                var pair = vars[i].split("=");
+                if(pair[0] == variable){return pair[1];}
+        }
+        return(false);
+    }
+  let webUrl=window.location.protocol+"//"+window.location.hostname+':3000';
+  let url = webUrl;
+  $('#block_id').on('click',function(e){
+      window.location.href = 'block_details.html?address=' + $(this).context.innerText
+    })
+    $('#logId').on('click',function(e){
+      window.location.href = 'payDetails.html?address=' + $(this).context.innerText
+    })
+    $('#to_address').on('click',function(e){
+      window.location.href = 'index_details.html?address=' + $(this).context.innerText
+    })
+    $('#get_address').on('click',function(e){
+      window.location.href = 'index_details.html?address=' + $(this).context.innerText
+    })  
+  function ajax2 () {
+        $.ajax({
+            url: url + "/getPayDetail",
+            type: "GET",
+            data: {'id':getQueryVariable('address')},
+            dataType:"json",
+            success:function(result){
+                console.log(result)
+                if (result.code === 1 ) {
+                  let data = result.data;
+                    $('#block_id').html(data.info.block_id);
+                    $('#fee').html(data.info.fee);
+                    $('#get').html(data.info.get);
+                    $('#hash').html(data.info.hash);
+                    $('#size').html(data.info.size);
+                    $('#to').html(data.info.to);
+                    $('#value').html(data.info.value);
+
+                    $('#logValue').html(data.log.value);
+                    $('#logId').html(data.log.id);
+                    $('#logFee').html(data.log.fee);
+                    $('#get_value').html(data.log.get_value);
+                    $('#to_address').html(data.log.to_address);
+                    $('#to_value').html(data.log.to_value);
+                    $('#get_address').html(data.log.get_address);
+                } else {
+                  alert(result.msg)
+                }
+                
+            },
+            error:function(error){
+              alert('请求参数出错')
+              }
+
+        });
+    }
+    ajax2()
+</script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+.fixedScroll {
+    position: fixed;
+    width: 100%;
+}
+body {
+  background: url(../images/body_bg.png) no-repeat;
+  background-size: cover;
+}
+.dataitem {
+  padding: 10px 0;
+}
+.btn-primary {
+  background-color: #24ACD8;
+  border-color: #24ACD8;
+}
+.btn-success {
+  background-color: #CD9A2C;
+  border-color: #CD9A2C;
+}
+#tbody td {
+  max-width: 120px;
+  white-space: nowrap;
+
+word-break: break-all;
+overflow: hidden;
+text-overflow: ellipsis;
+}

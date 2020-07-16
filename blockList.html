@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="applicable-device" content="pc,mobile">
+    <title>ASM Explorer</title>
+    <link rel="shortcut icon"  href="images/asm_logo_gold.png" style="width: 12px;height: 12px;" >
+    <link rel="stylesheet" href="css/bootstrap.min.css?v=1.7">
+    <link rel="stylesheet" href="css/common.css?v=1.7">
+    <link rel="stylesheet" href="css/page.css?v=1.7">
+    <link rel="stylesheet" href="css/switch.css?v=1.7">
+</head>
+<style>
+html {
+    min-height: 100%;
+}
+</style>
+<body id="translation">
+ <!-- PC -->
+<div class="nav" style="display: block;">
+    <div class="content">
+      <a href="index.html" class="logo"><img src="images/asm_logo_gold.png" alt=""><span class="tra1">Explorer</span></a>
+      <ul>
+        <li><a href="index.html" class="tra2">Home</a></li>
+        <li class="dropmenu_link">
+          <a href="javascript:;" class="tra3">Blockchain<span class="arrow"></span></a>
+          <div class="other_link_list">
+            <ul>
+              <li><a href="blockList.html" id="goBlockList" class="tra4">Block</a></li>
+              <li><a href="payList.html" id="goPayList" class="tra5">Transaction</a></li>
+
+            </ul>
+          </div>
+        </li>
+        <li><a href="https://github.com/ASMblock" class="tra6">About us</a></li>
+      </ul>
+      <div class="language">
+        <div class="selected">
+          <span id="translateI">English</span><i></i>
+          <div class="languagelist">
+              <ul>
+                <li><a href="javascript:;">简体中文</a></li>
+                <li><a href="javascript:;">English</a></li>
+              </ul>
+            </div>
+        </div>
+      </div>
+     
+      <div class="navsearch"><input type="text" class="tra7" id="inputValue" placeholder="Block hash/block height/transaction hash/address"></div>
+    </div>
+  </div>
+  <!-- Mobile -->
+  <div class="m_nav">
+    <a href="index.html" class="logo"></a>
+    <a href="index.html" class="link tra1">Explorer</a>
+    <div class="menustatus"></div>
+    <div class="menudropdown">
+      <div class="header"><input type="text" class="tra7" id="inputValue1" placeholder="Block hash/block height/transaction hash/address"><button type="button" id="search" class="tra23">Search</button></div>
+      <div class="linklist">
+        <ul>
+          <li><a href="index.html" class="tra2">Home</a></li>
+          <li><a href="blockList.html" class="tra4">Block</a></li> 
+          <li><a href="payList.html" class="tra5">Transaction</a></li>
+          <li><a href="https://github.com/ASMblock" class="tra6">About us</a></li>
+          <li><a href="#" id="translate">English/简体中文
+              <label class="bui-switch-label bui-switch-animbg">
+                  <input type="checkbox" id="translateInput" name="s"><i class="bui-switch"></i>
+                  <span style="font-size:18px;margin:10px 10px;top:-7px;position:relative;"></span>
+                </label>
+          </a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+<div class="page">
+  <div class="container" id="notMsg">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="breadbox">
+            <ol class="breadcrumb">
+                <li><a href="#" class="tra2">Home</a></li>
+                <li class="active tra4" >Block</li>
+            </ol>
+        </div>
+        <div class="datalistbox">
+            <div class="dataitem show">
+                <div class="body">
+                    <table class="table table-hover" data-selectable="selectable" data-row-selectable="true" data-page-size="10">
+                        <thead>
+                            <tr>
+                                <th class="tra48">Block height</th>
+                                <th class="tra51">Block hash</th>
+                                <th class="tra27">Create time</th>
+                                <th class="tra28">Count</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody">
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="12">
+                                    <div class="page_sum pull-left">There are <span id="dataCount"></span> records in all.</div>
+                                    <div class="page_math pull-right">
+                                            <div style="text-align: center;">
+                                                    <div id="pager" class="pager clearfix">
+                                                    </div>
+                                                </div>
+                                        </div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <div class="content">
+      <p>© Copyright ASM 2019. All Rights Reserved</p>
+  </div>
+</div>
+
+<script src="js/jquery.min.js?v=1.7"></script>
+<script src="js/bootstrap.min.js?v=1.7"></script>
+<script src="js/common.js?v=1.7"></script>
+<script src="js/jquery.z-pager.js?v=1.7"></script>
+<script>
+
+    let webUrl=window.location.protocol+"//"+window.location.hostname+':3000';
+    let url = webUrl;
+
+    function getQueryVariable(variable)
+    {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+                var pair = vars[i].split("=");
+                if(pair[0] == variable){return pair[1];}
+        }
+        return(false);
+    }
+
+    
+    function currentPage(currentPage, address){
+        $.ajax({
+                url: url + "/getBlockList",
+                type: "GET",
+                data: {'address': address, 'page':currentPage,'limit':'10'
+                    },
+                dataType:"json",
+                success:function(result){
+                    console.log(result)
+                    if( result.code === 1) {
+                        let data = result.data;
+                        getData(data.list)
+                    } else {
+                      alert(result.msg)
+                    }
+                },
+                error:function(error){
+                  alert('Error')
+                  }
+    
+            });
+    }
+    
+    getPayList(null,1)
+
+
+    function getPayList (id, current) {
+            $.ajax({
+                url: url + "/getBlockList",
+                type: "GET",
+                data: {'address': id, 'page':current,'limit':'10'
+                    },
+                dataType:"json",
+                success:function(result){
+                    console.log(result)
+                    if( result.code === 1) {
+                        let data = result.data;
+                        
+                        $('#dataCount').html(data.count)
+                        $("#pager").zPager({
+                            totalData: data.count,
+                            // htmlBox: $('#wraper'),
+                            btnShow: true,
+                            ajaxSetData: false,
+                        });
+                        getData(data.list)
+                    }else {
+                      alert(result.msg)
+                    }
+                },
+                error:function(error){
+                  alert('Error')
+                  }
+    
+            });
+        }
+    function getData (data) {
+        let str = '';
+        let html = '';
+        data.forEach((item,i) => {
+            str +=  '<tr>' +
+                        '<td><a href="block_details.html?address='+ item.block_id+ '">'+ item.block_id + '</a></td>'+
+                       ' <td><a href="block_details.html?address='+ item.blockhash+ '">'+ item.blockhash + '</a></td>'+
+                        '<td>' + item.createtime + '</td>' +
+                        '<td>' + item.pay_count + '</td>'+
+                   ' </tr>'
+        })
+        $('#tbody').html(str)
+        goPayDetails()
+    }
+    function goPayDetails () {
+
+      $('#jiaoyi_id').on('click', function(e) {
+        window.location.href = 'payDetails.html?address=' + e.target.innerText
+      })
+    }
+</script>
+</body>
+</html>
